@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 
-{% block head %}{% endblock %}
+{% block head %}
+<title>Task Smash</title>
+{% endblock %}
 
 {% block body %}
 <div class="content">
@@ -23,7 +25,7 @@
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br/>
-                    <a href="/update/{{task.id}}">Edit</a>
+                    <a href="/edit/{{task.id}}">Edit</a>
                 </td>
             </tr>
         {%endfor%}

@@ -38,7 +38,7 @@ def index():
             db.session.add(new_task)
             db.session.commit()
             return redirect("/")
-        except:
+        except Exception as e:
             print(f"Error:(e)")
             return ("Error:(e)")
     #see all current tasks
@@ -46,6 +46,33 @@ def index():
         tasks = MyTask.query.order_by(MyTask.created_at).all()
         return render_template("index.html", tasks=tasks)
 
+#delete task
+@app.route("/delete/<int:id>")
+def delete(id:int):
+    delete_task = MyTask.query.get_or_404(id)
+
+    try:
+        db.session.delete(delete_task)
+        db.session.commit()
+        return redirect("/")
+    except Exception as e:
+        return f"Error:(e)"
+    
+#edit task
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id:int):
+    task = MyTask.query.get_or_404(id)
+
+    if request.method == "POST":
+        task.content = request.form['content']
+        try:
+            db.session.commit()
+            return redirect("/")
+        except Exception as e:
+            return f"Error:(e)"
+    else:
+        return render_template("edit.html", task=task)
+    
 
 
 if __name__ in "__main__":
