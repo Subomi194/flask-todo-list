@@ -11,6 +11,7 @@ Scss(app)
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 #data class
@@ -23,6 +24,8 @@ class MyTask(db.Model):
     def __repr__(self) -> str:
         return f"<Task {self.id}>"
 
+with app.app_context():
+        db.create_all()
 
 #routes
 #homepage
@@ -75,8 +78,6 @@ def edit(id:int):
     
 
 
-if __name__ in "__main__":
-    with app.app_context():
-        db.create_all()
+if __name__ == "__main__":
     app.run(debug=True)
 
